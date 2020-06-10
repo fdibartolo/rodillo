@@ -3,7 +3,7 @@
 LiquidCrystal lcd(12, 11, 8, 7, 6, 5);
 
 // Circumference of bicycle wheel expressed in meters
-float bicycleWheelCircumference = 0.275;  
+float bicycleWheelCircumference = 0.2915;  
 
 const int revolutionButton = 4;
 
