@@ -11,6 +11,7 @@ unsigned long currentTime = 0;
 unsigned long revolutionTime = 0;
 unsigned long lastRevolutionTime = 0;
 unsigned long revolutionCount = 0;
+unsigned long lastPrintValTime = 0;
 
 float currentDistance;
 int currentKPH;
@@ -40,7 +41,11 @@ void loop() {
   // no pulse detected (pulseIn has exit on timeout), means it is stopped
   else { currentKPH = 0; }
 
-  printValues();
+  // if half a second has elapsed, print values (to avoid lcd to flicker)
+  if (currentTime > (lastPrintValTime + 500)) { 
+    printValues();
+    lastPrintValTime = currentTime;
+  }
 }
 
 void printConfig() {
