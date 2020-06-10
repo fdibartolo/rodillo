@@ -14,13 +14,13 @@ unsigned long revolutionCount = 0;
 
 float currentDistance;
 int currentKPH;
+int maxKPH = 0;
 
 void setup()
 {
-  pinMode (revolutionButton, INPUT);
+  pinMode(revolutionButton, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   lcd.begin(16, 2);
-
   printConfig();
   printLabels();
 }
@@ -35,11 +35,10 @@ void loop() {
     currentKPH = (3600000 / revolutionTime) * bicycleWheelCircumference / 1000;
     currentDistance = revolutionCount * bicycleWheelCircumference / 1000;
     lastRevolutionTime = currentTime;
+    if (currentKPH > maxKPH) { maxKPH = currentKPH; }
   }
-  else {
-    // no pulse detected (pulseIn has exit on timeout), means it is stopped
-    currentKPH = 0;
-  }
+  // no pulse detected (pulseIn has exit on timeout), means it is stopped
+  else { currentKPH = 0; }
 
   printValues();
 }
@@ -59,6 +58,8 @@ void printLabels() {
   lcd.print("km: ");
   lcd.setCursor(0, 1);
   lcd.print("kph: ");
+  lcd.setCursor(9, 1);
+  lcd.print("max: ");
 }
 
 void printValues() {
@@ -67,4 +68,6 @@ void printValues() {
   lcd.setCursor(5, 1);
   if (currentKPH < 10) { lcd.print(" "); }
   lcd.print(currentKPH);
+  lcd.setCursor(14, 1);
+  lcd.print(maxKPH);
 }
